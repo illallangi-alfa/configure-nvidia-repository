@@ -1,0 +1,17 @@
+---
+- name: "Add GPG key(s) to apt"
+  apt_key:
+    url: "{{ item.key }}"
+    state: present
+  with_items: "{{ configure_nvidia_repository[(ansible_os_family | lower) + '_' + (ansible_architecture | lower)] | json_query('apt_repository[].gpgkey[]') }}"
+  when:
+    - "configure_nvidia_repository[(ansible_os_family | lower) + '_' + (ansible_architecture | lower)] | json_query('apt_repository[].gpgkey[]') is not none"
+  tags:
+    - "nvidia-repository"
+- name: "Add apt repository(s)"
+  apt_repository:
+    repo: "{{ item.repo }}"
+    state: "present"
+  with_items: "{{ configure_nvidia_repository[(ansible_os_family | lower) + '_' + (ansible_architecture | lower)].apt_repository | default([]) }}"
+  tags:
+    - "nvidia-repository"

@@ -1,0 +1,19 @@
+---
+configure_nvidia_repository:
+  debian: &debian
+    apt_repository:
+      - repo: "deb https://nvidia.github.io/libnvidia-container/stable/debian10/$(ARCH) /"
+        gpgkey:
+          - key: "https://nvidia.github.io/nvidia-docker/gpgkey"
+            fingerprint: "C95B321B61E88C1809C4F759DDCAE044F796ECB0"
+      - repo: "deb https://nvidia.github.io/nvidia-container-runtime/stable/debian10/$(ARCH) /"
+        gpgkey:
+          - key: "https://nvidia.github.io/nvidia-docker/gpgkey"
+            fingerprint: "C95B321B61E88C1809C4F759DDCAE044F796ECB0"
+      - repo: "deb https://nvidia.github.io/nvidia-docker/debian10/$(ARCH) /"
+        gpgkey:
+          - key: "https://nvidia.github.io/nvidia-docker/gpgkey"
+            fingerprint: "C95B321B61E88C1809C4F759DDCAE044F796ECB0"
+  raspbian: &raspbian
+  debian_armv7l: *raspbian
+  debian_x86_64: *debian
